@@ -1,6 +1,4 @@
-# IT Infrastructure Proposal Prep #1 for NET2GRID
-
-## Cooperation Plan
+vfdfb## Cooperation Plan
 
 What are the key strengths of each person on the team?
 
