@@ -25,9 +25,19 @@ function compname {
 
 
 # Main
- # Set Static IP Address
+
+
+
 
  Write-Host {"Welcome! You've fired up the Domain Controller Creation Automation Script, let's get a few prerequisite items sorted."}
+        
+        Write-Host "First, let's get the DNS Server Installed on here"
+
+        # Install DNS 
+Install-WindowsFeature -Name DNS -IncludeManagementTools
+
+ # Set Static IP Address
+        
         $DC_IP=Read-Host -Prompt "Please specify an IP address to statically assign to this machine"
         Start-Sleep -Seconds 1
         Write-Host "Working!"
@@ -46,7 +56,11 @@ $adapter | New-NetIPAddress `
  -IPAddress $DC_IP `
  -PrefixLength $MaskBits `
  -DefaultGateway $Gateway
-    
+
+ Set-DnsClientServerAddress `
+  -InterfaceIndex 5 `
+  -ServerAddresses $DC_IP, 8.8.8.8
+
         # Rename Windows Server
         Write-Host "Okay, next item; let's choose a new name for this machine"
 
