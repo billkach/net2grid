@@ -9,7 +9,6 @@
 
 function PrimaryDCStandUp {
     
-        # Set Static IP Address
         Write-Host "Next, we'll install AD-DS Services"
         Write-Host "Working.."
         Install-WindowsFeature -Name AD-Domain-Services -IncludeManagementTools
@@ -23,7 +22,6 @@ function PrimaryDCStandUp {
                     -DomainName "net2grid.globexpower.com" `
                     -DomainNetbiosName "NET2GRID1" `
                     -ForestMode "WinThreshold" `
-                    -InstallDns:$true `
                     -LogPath "C:\Windows\NTDS" `
                     -NoRebootOnCompletion:$false `
                     -SysvolPath "C:\Windows\SYSVOL" `
@@ -45,7 +43,7 @@ function SecondaryDCStandUp {
 Write-Host "Welcome back! Here's the changes we've made so far:"
 Write-Host "New Computer Name:" $env:COMPUTERNAME
 Start-Sleep -Seconds 3
-Get-NetIPAddress
+ipconfig
 
 Start-Sleep -Seconds 1
 
