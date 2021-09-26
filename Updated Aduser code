@@ -1,0 +1,31 @@
+# Import required modules
+Import-Module ActiveDirectory
+
+# Create New Password
+$securePassword = Convertto-SecureString "TESTpassw0rd!" -AsPlainText -Force
+
+# Prompt user for CSV file path
+$filepath = Read-Host -Prompt "Please enter the path to your CSV file"
+
+# Import the file inot variable 
+$users = Import-Csv $filepath
+
+# Loop through each row and gather information
+ForEach ($user in $users) {
+
+#Gather the user's infomration
+$fname = $user.'First Name'
+$lname = $user.'Last Name'
+$jtitle = $user.'Job Title'
+$officephone = $user.'Office Phone'
+$emailaddress = $user.'Email Address'
+$OUpath = $user.'Organizational Unit'
+
+# Create new AD user for each user in CSV file
+New-ADuser -Name "$fname $lname" -GivenName $fname -Surname $lname -UserPrincipalName "$fname.$lname" -Path $OUpath -AccountPassword $securePassword -ChangePasswordAtLogon $False -OfficePhone $officephone -Enabled $true -EmailAddress $emailaddress
+
+
+# Echo output for each new user
+echo "Account created for $fname $lname in $OUPath"
+
+}
